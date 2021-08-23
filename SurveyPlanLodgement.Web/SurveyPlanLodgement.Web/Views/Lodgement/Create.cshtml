@@ -1,153 +1,155 @@
 ﻿@model LodgementModel
 @inject SurveyPlanLodgement.Web.Repository.IAccountRepository _accountRepository
 
-<div class="container">
-    <h3 class="display-4">Add new Lodgement</h3>
-
-    @if (ViewBag.IsSuccess == true)
-    {
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>Congratulations!</strong> You have lodged a new survey plan. <br />
-            <a asp-controller="Book" asp-action="Detail" asp-route-id="@ViewBag.LodgementId">Click here to view details</a>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+<div class="col-md-6">
+    <!-- general form elements -->
+    <div class="card card-primary">
+        <div class="card-header">
+            <h3 class="card-title">Leave Application Form</h3>
         </div>
-    }
+        <!-- /.card-header -->
+
+        @if (ViewBag.IsSuccess == true)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Congratulations!</strong> You have lodged a new survey plan. <br />
+                <a asp-controller="Book" asp-action="Detail" asp-route-id="@ViewBag.LodgementId">Click here to view details</a>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
 
 
-    <div class="d-flex justify-content-center" id="myLoader">
-        <div id="myLoader" class="spinner-border" role="status" style="display:none">
-            <span class="visually-hidden">Loading...</span>
+        <div class="d-flex justify-content-center" id="myLoader">
+            <div id="myLoader" class="spinner-border" role="status" style="display:none">
+                <span class="visually-hidden">Loading...</span>
+            </div>
         </div>
+
+        <!-- form start -->
+        <form method="post" enctype="multipart/form-data" asp-action="Create" asp-controller="Lodgement">
+            <div class="card-body">
+                <div class="form-group">
+                    <div class="text-danger" asp-validation-summary="All"></div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description"></label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <input asp-for="SurveyorId" type="hidden" value="@ViewBag.UserId" />
+
+                @*<div class="form-group">
+                    <label asp-for="VerificationOfficerId"></label>
+                    <select asp-for="VerificationOfficerId" class="form-control" asp-items="(await _accountRepository.GetAllApplicationUsers()).Select(l => new SelectListItem() { Text = l.FirstName + l.LastName, Value = l.Id.ToString()})">
+                        <option value="">Please choose a Verification Officer</option>
+
+                    </select>
+                    <span asp-validation-for="VerificationOfficerId" class="text-danger"></span>
+                </div>*@
+
+                <div class="form-group">
+                    <label asp-for="SchemePlan"></label>
+                    <div class="custom-file mb-3">
+                        <input asp-for="SchemePlan" class="custom-file-input" id="galleryImage">
+                        <label class="custom-file-label" asp-for="SchemePlan">Upload</label>
+                    </div>
+                    <span asp-validation-for="SchemePlan" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="SurveyInstruction"></label>
+                    <div class="custom-file mb-3">
+                        <input asp-for="SurveyInstruction" class="custom-file-input" id="galleryImage">
+                        <label class="custom-file-label" asp-for="SurveyInstruction">Upload</label>
+                    </div>
+                    <span asp-validation-for="SurveyInstruction" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="SurveyReport"></label>
+                    <div class="custom-file mb-3">
+                        <input asp-for="SurveyReport" class="custom-file-input" id="galleryImage">
+                        <label class="custom-file-label" asp-for="SurveyReport">Upload</label>
+                    </div>
+                    <span asp-validation-for="SurveyReport" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="FieldNotes"></label>
+                    <div class="custom-file mb-3">
+                        <input asp-for="FieldNotes" class="custom-file-input" id="galleryImage">
+                        <label class="custom-file-label" asp-for="FieldNotes">Upload</label>
+                    </div>
+                    <span asp-validation-for="FieldNotes" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="AreaCalculationSheet"></label>
+                    <div class="custom-file mb-3">
+                        <input asp-for="AreaCalculationSheet" class="custom-file-input" id="galleryImage">
+                        <label class="custom-file-label" asp-for="AreaCalculationSheet">Upload</label>
+                    </div>
+                    <span asp-validation-for="AreaCalculationSheet" class="text-danger"></span>
+                </div>
+
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input id="isCoordinateExempted" class="form-check-input" asp-for="isCoordinateExempted" /> @Html.DisplayNameFor(model => model.isCoordinateExempted)
+                    </label>
+                </div>
+
+                <div id="coordinateSheet" class="form-group">
+                    <label asp-for="CoordinateSheet"></label>
+                    <div class="custom-file mb-3">
+                        <input asp-for="CoordinateSheet" class="custom-file-input" id="galleryImage">
+                        <label class="custom-file-label" asp-for="CoordinateSheet">Upload</label>
+                    </div>
+                    <span asp-validation-for="CoordinateSheet" class="text-danger"></span>
+                </div>
+
+                <div id="coordinateExemptionSheet" class="form-group">
+                    <label asp-for="CoordinateExemptionSheet"></label>
+                    <div class="custom-file mb-3">
+                        <input asp-for="CoordinateExemptionSheet" class="custom-file-input" id="galleryImage">
+                        <label class="custom-file-label" asp-for="CoordinateExemptionSheet">Upload</label>
+                    </div>
+                    <span asp-validation-for="CoordinateExemptionSheet" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="CalibrationReport"></label>
+                    <div class="custom-file mb-3">
+                        <input asp-for="CalibrationReport" class="custom-file-input" id="galleryImage">
+                        <label class="custom-file-label" asp-for="CalibrationReport">Upload</label>
+                    </div>
+                    <span asp-validation-for="CalibrationReport" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ClearanceLetters"></label>
+                    <div class="custom-file mb-3">
+                        <input asp-for="ClearanceLetters" class="custom-file-input" id="galleryImage">
+                        <label class="custom-file-label" asp-for="ClearanceLetters">Upload</label>
+                    </div>
+                    <span asp-validation-for="ClearanceLetters" class="text-danger"></span>
+                </div>
+            </div>
+            <!-- /.card-body -->
+
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary">Lodge</button>
+            </div>
+        </form>
     </div>
-
-
-    <form method="post" enctype="multipart/form-data" asp-action="Create" asp-controller="Lodgement">
-        <div class="form-group">
-            <div class="text-danger" asp-validation-summary="All"></div>
-        </div>
-        <div class="form-group">
-            <label asp-for="Description"></label>
-            <input asp-for="Description" class="form-control" />
-            <span asp-validation-for="Description" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="SurveyorId"></label>
-            <select asp-for="SurveyorId" class="form-control" asp-items="(await _accountRepository.GetAllApplicationUsers()).Select(l => new SelectListItem() { Text = l.FirstName + l.LastName, Value = l.Id.ToString()})">
-                <option value="">Please choose a Surveyor</option>
-
-            </select>
-            <span asp-validation-for="SurveyorId" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="VerificationOfficerId"></label>
-            <select asp-for="VerificationOfficerId" class="form-control" asp-items="(await _accountRepository.GetAllApplicationUsers()).Select(l => new SelectListItem() { Text = l.FirstName + l.LastName, Value = l.Id.ToString()})">
-                <option value="">Please choose a Verification Officer</option>
-
-            </select>
-            <span asp-validation-for="VerificationOfficerId" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="SchemePlan"></label>
-            <div class="custom-file mb-3">
-                <input asp-for="SchemePlan" class="custom-file-input" id="galleryImage">
-                <label class="custom-file-label" asp-for="SchemePlan">Upload</label>
-            </div>
-            <span asp-validation-for="SchemePlan" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="SurveyInstruction"></label>
-            <div class="custom-file mb-3">
-                <input asp-for="SurveyInstruction" class="custom-file-input" id="galleryImage">
-                <label class="custom-file-label" asp-for="SurveyInstruction">Upload</label>
-            </div>
-            <span asp-validation-for="SurveyInstruction" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="SurveyReport"></label>
-            <div class="custom-file mb-3">
-                <input asp-for="SurveyReport" class="custom-file-input" id="galleryImage">
-                <label class="custom-file-label" asp-for="SurveyReport">Upload</label>
-            </div>
-            <span asp-validation-for="SurveyReport" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="FieldNotes"></label>
-            <div class="custom-file mb-3">
-                <input asp-for="FieldNotes" class="custom-file-input" id="galleryImage">
-                <label class="custom-file-label" asp-for="FieldNotes">Upload</label>
-            </div>
-            <span asp-validation-for="FieldNotes" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="AreaCalculationSheet"></label>
-            <div class="custom-file mb-3">
-                <input asp-for="AreaCalculationSheet" class="custom-file-input" id="galleryImage">
-                <label class="custom-file-label" asp-for="AreaCalculationSheet">Upload</label>
-            </div>
-            <span asp-validation-for="AreaCalculationSheet" class="text-danger"></span>
-        </div>
-
-        <div class="form-group form-check">
-            <label class="form-check-label">
-                <input id="isCoordinateExempted" class="form-check-input" asp-for="isCoordinateExempted" /> @Html.DisplayNameFor(model => model.isCoordinateExempted)
-            </label>
-        </div>
-
-        <div id="coordinateSheet" class="form-group">
-            <label asp-for="CoordinateSheet"></label>
-            <div class="custom-file mb-3">
-                <input asp-for="CoordinateSheet" class="custom-file-input" id="galleryImage">
-                <label class="custom-file-label" asp-for="CoordinateSheet">Upload</label>
-            </div>
-            <span asp-validation-for="CoordinateSheet" class="text-danger"></span>
-        </div>
-
-        <div id="coordinateExemptionSheet" class="form-group">
-            <label asp-for="CoordinateExemptionSheet"></label>
-            <div class="custom-file mb-3">
-                <input asp-for="CoordinateExemptionSheet" class="custom-file-input" id="galleryImage">
-                <label class="custom-file-label" asp-for="CoordinateExemptionSheet">Upload</label>
-            </div>
-            <span asp-validation-for="CoordinateExemptionSheet" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="CalibrationReport"></label>
-            <div class="custom-file mb-3">
-                <input asp-for="CalibrationReport" class="custom-file-input" id="galleryImage">
-                <label class="custom-file-label" asp-for="CalibrationReport">Upload</label>
-            </div>
-            <span asp-validation-for="CalibrationReport" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="ClearanceLetters"></label>
-            <div class="custom-file mb-3">
-                <input asp-for="ClearanceLetters" class="custom-file-input" id="galleryImage">
-                <label class="custom-file-label" asp-for="ClearanceLetters">Upload</label>
-            </div>
-            <span asp-validation-for="ClearanceLetters" class="text-danger"></span>
-        </div>
-
-
-        <div class="form-group">
-            <input type="submit" value="Lodge" class="btn btn-primary" />
-        </div>
-
-
-    </form>
+    <!-- /.card -->
 </div>
 
+
 @section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script>
         $('#coordinateExemptionSheet').hide();
         $('#isCoordinateExempted').on('click',
@@ -157,4 +159,4 @@
         );
     </script>
 
-    }
+}

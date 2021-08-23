@@ -115,6 +115,87 @@ namespace SurveyPlanLodgement.Web.Controllers
 
         }
 
+        [HttpGet("confirm-email")]
+        public async Task<IActionResult> ConfirmEmail(string uid, string token, string email)
+        {
+            ConfirmEmailModel model = new ConfirmEmailModel
+            {
+                Email = email
+            };
+            if (!string.IsNullOrEmpty(uid) && !string.IsNullOrEmpty(token))
+            {
+                token = token.Replace(' ', '+');
+                var result = await _accountRepository.ConfirmEmailAsync(uid, token);
+                if (result.Succeeded)
+                {
+                    model.EmailVerified = true;
+                }
+            }
+
+            return View();
+        }
+
+        [HttpPost("confirm-email")]
+        public async Task<IActionResult> ConfirmEmail(ConfirmEmailModel model)
+        {
+            var user = await _accountRepository.GetUserByEmailAsync(model.Email);
+            if (user != null)
+            {
+                if (user.EmailConfirmed)
+                {
+                    model.IsConfirmed = true;
+
+                    return View(model);
+                }
+
+                await _accountRepository.GenerateEmailConfirmationTokenAsync(user);
+                model.EmailSent = true;
+                ModelState.Clear();
+            }
+            else
+            {
+                ModelState.AddModelError("", "Something went wrong.");
+            }
+
+            return View(model);
+        }
+
+        [HttpGet]
+        [Route("edit-user")]
+        public async Task<IActionResult> EditUser(string userId)
+        {
+            var user = await _accountRepository.GetUserModelAsync(userId);
+
+            return View(user);
+        }
+
+        [HttpPost]
+        [Route("edit-user")]
+        public async Task<IActionResult> EditUser(UpdateUserModel userModel)
+        {
+            if (ModelState.IsValid)
+            {
+                //Write your code
+                var result = await _accountRepository.EditUserAsync(userModel);
+
+                if (!result.Succeeded)
+                {
+                    //Get all Error Messages
+                    foreach (var errorMessage in result.Errors)
+                    {
+                        ModelState.AddModelError("", errorMessage.Description);
+                    }
+
+                    return View();
+                }
+
+                ModelState.Clear();
+
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
+
 
     }
 }

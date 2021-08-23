@@ -11,9 +11,11 @@ namespace SurveyPlanLodgement.Web.Data
     public class Lodgement
     {
         public int Id { get; set; }
+        public string ReferenceNumber { get; set; }
         public string Description { get; set; }
-        public int SurveyorId { get; set; }
-        public int VerificationOfficerId { get; set; }
+        public string SurveyorId { get; set; }
+        public string VerificationOfficerId { get; set; }
+        public int StatusId { get; set; }
         public string SchemePlanUrl { get; set; }
         public string SurveyInstructionUrl { get; set; }
         public string SurveyReportUrl { get; set; }
@@ -26,9 +28,6 @@ namespace SurveyPlanLodgement.Web.Data
         public string CalibrationReportUrl { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime UpdatedOn { get; set; }
-
-        [NotMapped]
-        public ApplicationUser Surveyor { get; set; }
         public ICollection<ClearanceLetter> ClearanceLetters { get; set; }
     }
 }

@@ -1,0 +1,98 @@
+﻿@model List<LodgementModel>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h3 class="card-title">Lodgments</h3>
+                        </div>
+                        <div class="col-md-6 flex">
+                            <a asp-controller="LeaveType" asp-action="Create" class="btn btn-outline-success float-right">Add New</a>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body flex-column">
+                    <table class="table table-striped table-bordered table-hover" style="width:100%" id="dataTable">
+                        <thead>
+                            <tr>
+                                <th>Reference Number</th>
+                                <th>Description</th>
+                                <th>Surveyor</th>
+                                <th>Status</th>
+                                <th>Lodgment Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Any())
+                            {
+                                @foreach (var lodgement in Model)
+                                {
+                                    <tr>
+                                        <td>@lodgement.ReferenceNumber</td>
+                                        <td>@lodgement.Description</td>
+                                        <td>@lodgement.Surveyor.FirstName @lodgement.Surveyor.LastName</td>
+                                        <td>@lodgement.Status</td>
+                                        <td>@lodgement.CreatedOn</td>
+                                        <td>
+                                            <a class="btn btn-info" title="View" asp-controller="Lodgement" asp-action="Details" asp-route-id="@lodgement.Id">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <a class="btn btn-info" title="Edit" asp-controller="Lodgement" asp-action="Edit" asp-route-id="@lodgement.Id">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <a class="btn btn-danger" title="Withdraw" asp-controller="Lodgement" asp-action="Delete" asp-route-id="@lodgement.Id">
+                                                <i class="fas fa-backspace"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+
+    </div>
+
+
+@section Scripts{
+    <script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/plugins/jszip/jszip.min.js"></script>
+    <script src="~/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="~/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="~/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="~/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <!-- Page specific script -->
+    <script>
+        $(function () {
+            $("#dataTable").DataTable({
+                "responsive": true, "lengthChange": false, "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#usersTable_wrapper .col-md-6:eq(0)');
+            //$('#usersTable1').DataTable({
+            //    "paging": true,
+            //    "lengthChange": false,
+            //    "searching": false,
+            //    "ordering": true,
+            //    "info": true,
+            //    "autoWidth": false,
+            //    "responsive": true,
+            //});
+        });
+    </script>
+}

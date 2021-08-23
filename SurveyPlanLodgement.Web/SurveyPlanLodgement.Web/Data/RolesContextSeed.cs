@@ -22,8 +22,8 @@ namespace SurveyPlanLodgement.Web.Data
             //Seed Default User
             var defaultUser = new ApplicationUser
             {
-                UserName = "superadmin",
-                Email = "superadmin@pau.lands.fj",
+                UserName = "superadmin@localhost.com",
+                Email = "superadmin@localhost.com",
                 FirstName = "Super",
                 LastName = "Admin",
                 EmailConfirmed = true,

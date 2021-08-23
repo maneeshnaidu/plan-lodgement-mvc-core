@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SurveyPlanLodgement.Web.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class StatusUpdate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -50,20 +50,61 @@ namespace SurveyPlanLodgement.Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Journals",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    LodgementId = table.Column<int>(type: "int", nullable: false),
+                    OfficerId = table.Column<int>(type: "int", nullable: false),
+                    CheckedOutOn = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Journals", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Lodgements",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    ReferenceNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LandType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SurveyorId = table.Column<int>(type: "int", nullable: false),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    SurveyorId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    VerificationOfficerId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StatusId = table.Column<int>(type: "int", nullable: false),
+                    SchemePlanUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SurveyInstructionUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SurveyReportUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FieldNotesUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AreaCalculationSheetUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    isCoordinateExempted = table.Column<bool>(type: "bit", nullable: false),
+                    CoordinateExemptionSheetUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CoordinateSheetUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreekOffsetSheetUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CalibrationReportUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Lodgements", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Statuses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Statuses", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -173,20 +214,20 @@ namespace SurveyPlanLodgement.Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "FileUploads",
+                name: "ClearanceLetters",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     LodgementId = table.Column<int>(type: "int", nullable: false),
-                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Url = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FileUploads", x => x.Id);
+                    table.PrimaryKey("PK_ClearanceLetters", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_FileUploads_Lodgements_LodgementId",
+                        name: "FK_ClearanceLetters_Lodgements_LodgementId",
                         column: x => x.LodgementId,
                         principalTable: "Lodgements",
                         principalColumn: "Id",
@@ -233,8 +274,8 @@ namespace SurveyPlanLodgement.Web.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FileUploads_LodgementId",
-                table: "FileUploads",
+                name: "IX_ClearanceLetters_LodgementId",
+                table: "ClearanceLetters",
                 column: "LodgementId");
         }
 
@@ -256,7 +297,13 @@ namespace SurveyPlanLodgement.Web.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "FileUploads");
+                name: "ClearanceLetters");
+
+            migrationBuilder.DropTable(
+                name: "Journals");
+
+            migrationBuilder.DropTable(
+                name: "Statuses");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

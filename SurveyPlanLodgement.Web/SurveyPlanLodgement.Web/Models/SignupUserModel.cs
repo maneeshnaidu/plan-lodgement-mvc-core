@@ -34,5 +34,6 @@ namespace SurveyPlanLodgement.Web.Models
         [Display(Name = "Confirm Password")]
         [DataType(DataType.Password)]
         public string ConfirmPassword { get; set; }
+        public string Role { get; set; }
     }
 }

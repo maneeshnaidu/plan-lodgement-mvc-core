@@ -53,8 +53,10 @@ namespace SurveyPlanLodgement.Web.Controllers
         }
 
         [Route("login")]
-        public IActionResult Login()
+        public IActionResult Login(bool isFail = false, string userEmail = "")
         {
+            ViewBag.IsFail = isFail;
+            ViewBag.UserEmail = userEmail;
             return View();
         }
 
@@ -84,11 +86,11 @@ namespace SurveyPlanLodgement.Web.Controllers
                 {
                     ModelState.AddModelError("", "Invalid credentials");
                 }
-
-
+                
             }
 
-            return View(loginUserModel);
+            return RedirectToAction(nameof(Login));
+
         }
 
         [Route("logout")]

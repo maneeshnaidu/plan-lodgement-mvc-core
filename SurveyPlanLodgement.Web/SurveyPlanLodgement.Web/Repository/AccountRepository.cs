@@ -40,6 +40,22 @@ namespace SurveyPlanLodgement.Web.Repository
             return await _userManager.FindByIdAsync(id);
         }
 
+        public async Task<UpdateUserModel> GetUserModelAsync(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+
+            var model = new UpdateUserModel()
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                DateOfBirth = user.DateOfBirth
+            };
+
+            return model;
+        }
+
         public async Task<List<ApplicationUser>> GetAllApplicationUsers()
         {
             var users = _userManager.Users;
@@ -81,7 +97,6 @@ namespace SurveyPlanLodgement.Web.Repository
 
             return rolesList;
         }
-
         
 
         public async Task<IdentityResult> CreateUserAsync(SignupUserModel userModel)
@@ -98,12 +113,34 @@ namespace SurveyPlanLodgement.Web.Repository
             var result = await _userManager.CreateAsync(user, userModel.Password);
             if (result.Succeeded)
             {
-                //Add role "Surveyor" to user by default
-                await _userManager.AddToRoleAsync(user, Enum.RolesEnum.Surveyor.ToString());
+                if (!string.IsNullOrEmpty(userModel.Role))
+                {
+                    //Add SuperAdmin provided role to user
+                    await _userManager.AddToRoleAsync(user, userModel.Role);
+                }
+                else
+                {
+                    //Add role "Surveyor" to user by default
+                    await _userManager.AddToRoleAsync(user, Enum.RolesEnum.Surveyor.ToString());
+                }
+                
                 await GenerateEmailConfirmationTokenAsync(user);
             }
 
             return result;
+        }
+
+        public async Task<IdentityResult> EditUserAsync(UpdateUserModel model)
+        {
+            var user = await GetUserById(model.Id);
+
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+            user.DateOfBirth = model.DateOfBirth;
+            user.Email = model.Email;
+            user.UserName = model.Email;
+
+            return await _userManager.UpdateAsync(user);
         }
 
 

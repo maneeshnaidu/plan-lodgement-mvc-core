@@ -10,6 +10,7 @@ namespace SurveyPlanLodgement.Web.Repository
         Task<IdentityResult> ChangePasswordAsync(ChangePasswordModel model);
         Task<IdentityResult> ConfirmEmailAsync(string uid, string token);
         Task<IdentityResult> CreateUserAsync(SignupUserModel userModel);
+        Task<IdentityResult> EditUserAsync(UpdateUserModel model);
         Task GenerateEmailConfirmationTokenAsync(ApplicationUser user);
         Task GenerateForgotPasswordTokenAsync(ApplicationUser user);
         Task<List<ApplicationUser>> GetAllApplicationUsers();
@@ -21,5 +22,6 @@ namespace SurveyPlanLodgement.Web.Repository
         Task<ApplicationUser> GetUserById(string id);
         Task<List<RolesModel>> GetUserRolesByIdAsync(string userId);
         Task<IdentityResult> ManageUserRolesAsync(List<RolesModel> model, string userId);
+        Task<UpdateUserModel> GetUserModelAsync(string id);
     }
 }

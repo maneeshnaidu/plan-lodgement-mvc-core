@@ -1,4 +1,5 @@
-﻿@model SignupUserModel
+﻿
+@model SignupUserModel
 
 @{
     Layout = null;
@@ -9,20 +10,95 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Signup</title>
+    <title>Login</title>
 
-    <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-    </environment>
-    <environment exclude="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    </environment>
-
+    <partial name="_Styles" />
 </head>
-<body>
+<body class="hold-transition login-page">
+
+    <div class="login-box">
+        <div class="login-logo">
+            <a href="../../index2.html"><b>Admin</b>LTE</a>
+        </div>
+        <!-- /.login-logo -->
+        <div class="card">
+            <div class="card-body login-card-body">
+                <p class="login-box-msg">Register</p>
+
+                <form asp-action="Signup" asp-controller="Account" method="post">
+                    <div class="form-group">
+                        <label asp-for="FirstName" class="control-label"></label>
+                        <input asp-for="FirstName" class="form-control" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="LastName" class="control-label"></label>
+                        <input asp-for="LastName" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Email" class="control-label"></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="DateOfBirth" class="control-label"></label>
+                        <input asp-for="DateOfBirth" class="form-control" />
+                        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Password" class="control-label"></label>
+                        <input asp-for="Password" class="form-control" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ConfirmPassword" class="control-label"></label>
+                        <input asp-for="ConfirmPassword" class="form-control" />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-4">
+                        <button type="submit" class="btn btn-primary btn-block">Register</button>
+                    </div>
+                    <!-- /.col -->
+                </form>
 
 
-    <div class="container">
+                @*<div class="social-auth-links text-center mb-3">
+                        <p>- OR -</p>
+                        <a href="#" class="btn btn-block btn-primary">
+                            <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
+                        </a>
+                        <a href="#" class="btn btn-block btn-danger">
+                            <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
+                        </a>
+                    </div>*@
+                <!-- /.social-auth-links -->
+
+                <p class="mb-1">
+                    <a asp-action="ForgotPassword" asp-controller="Account">Forgot Password?</a>
+                </p>
+                <p class="mb-0">
+                    <a asp-action="Login" asp-controller="Account">Login</a>
+                </p>
+            </div>
+            <!-- /.login-card-body -->
+        </div>
+    </div>
+    <!-- /.login-box -->
+
+
+
+    <partial name="_Scripts" />
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    }
+</body>
+</html>
+
+@*<div class="container">
         <h4>Sign Up</h4>
         <hr />
         <div class="row">
@@ -73,12 +149,6 @@
             <a asp-area="" asp-action="Index" asp-controller="Home">Back to Home</a>
         </div>
 
-    </div>
+    </div>*@
 
 
-
-    @section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    }
-</body>
-</html>

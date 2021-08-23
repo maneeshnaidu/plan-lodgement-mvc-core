@@ -150,7 +150,7 @@ namespace SurveyPlanLodgement.Web.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("SurveyPlanLodgement.Web.Data.FileUploads", b =>
+            modelBuilder.Entity("SurveyPlanLodgement.Web.Data.ClearanceLetter", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -160,7 +160,7 @@ namespace SurveyPlanLodgement.Web.Migrations
                     b.Property<int>("LodgementId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Type")
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Url")
@@ -170,7 +170,28 @@ namespace SurveyPlanLodgement.Web.Migrations
 
                     b.HasIndex("LodgementId");
 
-                    b.ToTable("FileUploads");
+                    b.ToTable("ClearanceLetters");
+                });
+
+            modelBuilder.Entity("SurveyPlanLodgement.Web.Data.Journal", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CheckedOutOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("LodgementId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OfficerId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Journals");
                 });
 
             modelBuilder.Entity("SurveyPlanLodgement.Web.Data.Lodgement", b =>
@@ -180,24 +201,78 @@ namespace SurveyPlanLodgement.Web.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime?>("CreatedOn")
+                    b.Property<string>("AreaCalculationSheetUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CalibrationReportUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CoordinateExemptionSheetUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CoordinateSheetUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("CreekOffsetSheetUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SurveyorId")
+                    b.Property<string>("FieldNotesUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReferenceNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SchemePlanUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StatusId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("UpdatedOn")
+                    b.Property<string>("SurveyInstructionUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SurveyReportUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SurveyorId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("VerificationOfficerId")
-                        .HasColumnType("int");
+                    b.Property<string>("VerificationOfficerId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("isCoordinateExempted")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
                     b.ToTable("Lodgements");
+                });
+
+            modelBuilder.Entity("SurveyPlanLodgement.Web.Data.Status", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Statuses");
                 });
 
             modelBuilder.Entity("SurveyPlanLodgement.Web.Models.ApplicationUser", b =>
@@ -325,10 +400,10 @@ namespace SurveyPlanLodgement.Web.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SurveyPlanLodgement.Web.Data.FileUploads", b =>
+            modelBuilder.Entity("SurveyPlanLodgement.Web.Data.ClearanceLetter", b =>
                 {
                     b.HasOne("SurveyPlanLodgement.Web.Data.Lodgement", "Lodgement")
-                        .WithMany("FileUploads")
+                        .WithMany("ClearanceLetters")
                         .HasForeignKey("LodgementId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -338,7 +413,7 @@ namespace SurveyPlanLodgement.Web.Migrations
 
             modelBuilder.Entity("SurveyPlanLodgement.Web.Data.Lodgement", b =>
                 {
-                    b.Navigation("FileUploads");
+                    b.Navigation("ClearanceLetters");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,7 +1,6 @@
 ﻿@model List<ApplicationUser>
 @{
     ViewData["Title"] = "Index";
-    Layout = "AdminLTE/_Layout";
 }
 
 <section class="content">
@@ -81,7 +80,7 @@
                                     <h3 class="card-title">All Users</h3>
                                 </div>
                                 <div class="col-md-6 flex">
-                                    <a asp-controller="Account" asp-action="Signup" class="btn btn-outline-success float-right">Add User</a>
+                                    <a asp-controller="Users" asp-action="CreateUser" class="btn btn-outline-success float-right">Add User</a>
                                 </div>
                             </div>
 

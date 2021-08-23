@@ -10,9 +10,11 @@ namespace SurveyPlanLodgement.Web.Models
     public class LodgementModel
     {
         public int Id { get; set; }
+        public string ReferenceNumber { get; set; }
         public string Description { get; set; }
-        public int SurveyorId { get; set; }
-        public int? VerificationOfficerId { get; set; }
+        public string SurveyorId { get; set; }
+        public ApplicationUser Surveyor { get; set; }
+        public string VerificationOfficerId { get; set; }
         
         [Required]
         [Display(Name = "Please upload valid Scheme Plan")]
@@ -63,8 +65,13 @@ namespace SurveyPlanLodgement.Web.Models
         [Display(Name = "Please upload relevant clearance letters")]
         public IFormFileCollection ClearanceLetters { get; set; }
 
+        public int StatusId { get; set; }
+        public string Status { get; set; }
+
         //Property to retrieve documents from database
         public List<ClearanceLetterModel> UploadedClearanceLetters { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public DateTime UpdatedOn { get; set; }
 
 
     }

@@ -17,5 +17,8 @@ namespace SurveyPlanLodgement.Web.Data
         }
 
         public DbSet<Lodgement> Lodgements { get; set; }
+        public DbSet<ClearanceLetter> ClearanceLetters { get; set; }
+        public DbSet<Journal> Journals { get; set; }
+        public DbSet<Status> Statuses { get; set; }
     }
 }

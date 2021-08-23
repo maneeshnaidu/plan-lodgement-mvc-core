@@ -10,73 +10,83 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Login</title>
-
-    <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-    </environment>
-    <environment exclude="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    </environment>
+    <partial name="_Styles" />
 </head>
-<body>
+<body class="hold-transition login-page">
 
 
-    <div class="container">
-        <h4>Login</h4>
-        <hr />
-        <div class="row">
-            <div class="col-md-4">
-                <form method="post" asp-action="Login">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group">
-                        <label asp-for="Email" class="control-label"></label>
-                        <input asp-for="Email" class="form-control" />
+    <div class="login-box">
+        <div class="login-logo">
+            <a href="#"><b>Admin</b>LTE</a>
+        </div>
+        <!-- /.login-logo -->
+        <div class="card">
+            <div class="card-body login-card-body">
+                <p class="login-box-msg">Sign in to start your session</p>
+
+                <form asp-action="Login" asp-controller="Account" method="post">
+                    <div class="input-group mb-3">
+                        @*<label asp-for="Email" class="control-label"></label>*@
+                        <input asp-for="Email" class="form-control" placeholder="Email" />
                         <span asp-validation-for="Email" class="text-danger"></span>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label asp-for="Password" class="control-label"></label>
-                        <input asp-for="Password" class="form-control" />
+                    <div class="input-group mb-3">
+                        <input asp-for="Password" class="form-control" placeholder="Password" />
                         <span asp-validation-for="Password" class="text-danger"></span>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group form-check">
-                        <label class="form-check-label">
-                            <input class="form-check-input" asp-for="RememberMe" /> @Html.DisplayNameFor(model => model.RememberMe)
-                        </label>
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" value="Login" class="btn btn-primary" />
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="icheck-primary">
+                                <div class="form-group form-check">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" asp-for="RememberMe" /> @Html.DisplayNameFor(model => model.RememberMe)
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                        </div>
+                        <!-- /.col -->
                     </div>
                 </form>
-            </div>
-            <div class="col-md-8">
-                <img src="~/images/undraw_Login_re_4vu2.svg" />
-            </div>
-        </div>
 
-        <div>
-            <p><a asp-action="ForgotPassword" asp-controller="Account">Forgot Password?</a></p>
-            <p><a asp-action="Signup" asp-controller="Account">Create New Account</a></p>
-        </div>
+                @*<div class="social-auth-links text-center mb-3">
+                        <p>- OR -</p>
+                        <a href="#" class="btn btn-block btn-primary">
+                            <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
+                        </a>
+                        <a href="#" class="btn btn-block btn-danger">
+                            <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
+                        </a>
+                    </div>*@
+                <!-- /.social-auth-links -->
 
+                <p class="mb-1">
+                    <a asp-action="ForgotPassword" asp-controller="Account">Forgot Password?</a>
+                </p>
+                <p class="mb-0">
+                    <a asp-action="Signup" asp-controller="Account">Create New Account</a>
+            </div>
+            <!-- /.login-card-body -->
+        </div>
     </div>
-
-    <environment include="Development">
-        <script src="~/lib/jquery/jquery.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-        <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
-        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
-        <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script>
-    </environment>
-
-    <environment exclude="Development">
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-        <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    </environment>
+    <!-- /.login-box -->
 
 
+
+    <partial name="_Scripts" />
 
     @section Scripts {
         @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

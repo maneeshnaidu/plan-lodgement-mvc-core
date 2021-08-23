@@ -71,6 +71,7 @@ namespace SurveyPlanLodgement.Web
                 services.AddScoped<IAccountRepository, AccountRepository>();
                 services.AddScoped<IRolesRepository, RolesRepository>();
                 services.AddScoped<ILodgementRepository, LodgementRepository>();
+                services.AddScoped<IStatusRepository, StatusRepository>();
 
                 //Configure User Claims
                 services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationUserClaimsPrincipalFactory>();
